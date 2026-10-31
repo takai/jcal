@@ -48,3 +48,14 @@ Holiday information is provided by the [Cabinet Office of Japan](https://www8.ca
 Data is downloaded and cached automatically in `$XDG_CACHE_HOME/jcal/` (default: `~/.cache/jcal/`).
 
 The calendar continues to work offline using cached holiday data.
+
+## Releasing
+
+Releases are built with [GoReleaser](https://goreleaser.com/). Push a version tag and GitHub Actions publishes the archives:
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+To try a local build without publishing, run `goreleaser release --snapshot --clean`.

@@ -311,7 +311,8 @@ These details refine the behavior above where it leaves room for choice.
 - **Download timing:** When no cached data exists, it is downloaded before display (3-second timeout). Otherwise, an update check runs after the calendar has been written, when the last successful check is at least 7 days old and the last attempt is at least 24 hours old. Checks use conditional requests.
 - **Validation of downloads:** A download replaces the cache only if it contains at least one valid date and is at most 1 MiB.
 - **Configuration:** No configuration file is currently read.
-- **Version:** `jcal --version` prints `jcal <version>`, taken from `-ldflags "-X main.version=..."`, else from Go build information, else `dev`.
+- **Version:** `jcal --version` prints `jcal <version>`. Release builds get the version from the Git tag through GoReleaser (`-X main.version`); other builds fall back to Go build information, then `dev`.
+- **Releases:** Pushing a `v*` tag runs GoReleaser in GitHub Actions, which publishes archives for Linux, macOS and Windows on amd64 and arm64.
 
 ## 11. References
 
