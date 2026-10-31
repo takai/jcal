@@ -297,7 +297,23 @@ The program is considered functionally complete when:
 15. Configuration and cached files follow the XDG Base Directory Specification.
 16. Invalid arguments produce clear errors without displaying a misleading calendar.
 
-## 10. References
+## 10. Implementation Decisions
+
+These details refine the behavior above where it leaves room for choice.
+
+- **Locale precedence:** `LC_ALL`, then `LC_TIME`, then `LANG`; the first non-empty value is used. Values starting with `ja_JP` (or exactly `ja`) select Japanese; anything else selects `C`. Output is always UTF-8.
+- **Headings:** Month headings are centered in the 20-column month width. Year view shows the year centered over the whole grid, and month names without the year. Rows of months in the year view are separated by one blank line. Trailing spaces are trimmed from every line.
+- **Year range:** Years 1–9999 are accepted. Arguments must consist of decimal digits only.
+- **Options:** Short options may be bundled (e.g. `-3m`). `--` ends option parsing. `--three` together with a year-only argument is an error.
+- **Errors:** Messages are written as `jcal: <message>` followed by a hint to run `jcal --help`, with exit status 1.
+- **Colors:** Colors use ANSI SGR sequences (`30;47` highlight, `31` red, `34` blue) applied to the two-column day cell. Color is disabled when standard output is not a character device, when `NO_COLOR` is non-empty, or when `TERM=dumb`. Weekday labels are not colored.
+- **Holiday cache:** Stored as `$XDG_CACHE_HOME/jcal/syukujitsu.csv` with metadata in `syukujitsu.json` (last successful check, last attempt, `ETag`, `Last-Modified`). Files are replaced atomically.
+- **Download timing:** When no cached data exists, it is downloaded before display (3-second timeout). Otherwise, an update check runs after the calendar has been written, when the last successful check is at least 7 days old and the last attempt is at least 24 hours old. Checks use conditional requests.
+- **Validation of downloads:** A download replaces the cache only if it contains at least one valid date and is at most 1 MiB.
+- **Configuration:** No configuration file is currently read.
+- **Version:** `jcal --version` prints `jcal <version>`, taken from `-ldflags "-X main.version=..."`, else from Go build information, else `dev`.
+
+## 11. References
 
 - [cal(1) — Linux manual page](https://man7.org/linux/man-pages/man1/cal.1.html)
 - [Cabinet Office of Japan — National Holidays](https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html)
