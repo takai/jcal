@@ -13,6 +13,24 @@ A simple command-line calendar with Japanese national holidays.
 - Automatic holiday data updates with offline support
 - XDG Base Directory compliant
 
+## Install
+
+### Prebuilt binaries
+
+Download the archive for your platform from [GitHub Releases](https://github.com/takai/jcal/releases), extract it, and put `jcal` somewhere on your `PATH`. Binaries are available for Linux, macOS, and Windows on amd64 and arm64.
+
+### mise
+
+```sh
+mise use -g github:takai/jcal
+```
+
+### Go
+
+```sh
+go install github.com/takai/jcal/cmd/jcal@latest
+```
+
 ## Usage
 
 ```sh
@@ -48,14 +66,3 @@ Holiday information is provided by the [Cabinet Office of Japan](https://www8.ca
 Data is downloaded and cached automatically in `$XDG_CACHE_HOME/jcal/` (default: `~/.cache/jcal/`).
 
 The calendar continues to work offline using cached holiday data.
-
-## Releasing
-
-Releases are built with [GoReleaser](https://goreleaser.com/). Push a version tag and GitHub Actions publishes the archives:
-
-```sh
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-To try a local build without publishing, run `goreleaser release --snapshot --clean`.
