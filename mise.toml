@@ -1,0 +1,16 @@
+[tools]
+go = "1.27.3"
+hk = "2.10.0"
+golangci-lint = "2.15.0"
+
+[tasks.build]
+description = "Build the project"
+run = "go build -o bin/jcal ./cmd/jcal"
+
+[tasks.format]
+description = "Apply Go fixes and format the code"
+run = ["go fix ./...", "gofmt -w ."]
+
+[tasks.test]
+description = "Run tests"
+run = "go test ./..."
